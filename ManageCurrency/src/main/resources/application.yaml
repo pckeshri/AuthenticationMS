@@ -1,0 +1,59 @@
+server:
+  port: 8302
+spring:
+  sleuth:
+    #trace-id128: true
+    #sampler:
+      #probability: 1.0
+  #zipkin:
+    #base-url: http://192.168.99.100:9411/
+  h2:
+    console:
+      enabled: ${spring.h2.console.enabled}
+      path: ${spring.h2.console.path}
+      settings:
+        web-allow-others: true
+  datasource:
+    url: ${spring.datasource.url}
+    username: ${spring.datasource.username}
+    password: ${spring.datasource.password}
+    driver-class-name: ${spring.datasource.driverClassName}
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        show_sql: true
+        ddl-auto: create-drop
+  profiles:
+    active: dev 
+  #rabbitmq:
+    #host: 192.168.99.100
+    #port: 5672
+  #cloud:
+   # bus:
+     # enabled: true
+     # destination: configXchangebus
+#management:
+ # endpoints:
+  #  web:
+   #   exposure:
+    #    include: '*'
+        
+eureka:
+  instance:
+    instanceId: ${spring.application.name}:${random.int}
+    leaseRenewalIntervalInSeconds: 2
+    leaseExpirationDurationInSeconds: 5
+    preferIpAddress: true
+    metadata-map:
+      zone: A
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    prefer-same-zone-eureka: true
+    serviceUrl:
+      defaultZone: ${managecurrency.eureka.url:http://localhost:8301/eureka}
+
+feign:
+  hystrix:
+    enabled: true   
